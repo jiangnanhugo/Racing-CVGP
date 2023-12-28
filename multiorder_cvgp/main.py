@@ -3,8 +3,8 @@ import argparse
 from program import Program
 
 from const import ScipyMinimize
-from symbolic_data_generator import DataX
-from symbolic_equation_evaluator_public import Equation_evaluator
+from scibench.symbolic_data_generator import *
+from scibench.symbolic_equation_evaluator_public import Equation_evaluator
 from functions import create_tokens
 from regress_task import RegressTaskV1
 from multipleorder_cvgp import ExpandingGeneticProgram

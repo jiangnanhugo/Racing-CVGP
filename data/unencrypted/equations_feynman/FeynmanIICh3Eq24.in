@@ -1,0 +1,2 @@
+0
+{"eq_name": "feynman-ii.3.24", "num_vars": 2, "vars_range_and_types": "[{\"name\": \"LogUniform\", \"range\": [1.0, 100.0], \"only_positive\": false}, {\"name\": \"LogUniform\", \"range\": [0.01, 1.0], \"only_positive\": true}]", "function_set": ["add", "sub", "mul", "div", "inv", "n2", "const"], "eq_expression": "[('mul', 'binary'), (1/4, 'const'), ('mul', 'binary'), ('X_0', 'var'), ('mul', 'binary'), ('pow', 'binary'), (3.141592653589793, 'const'), (-1, 'const'), ('pow', 'binary'), ('X_1', 'var'), (-2, 'const')]", "expr": "X_0/(4*pi*X_1**2)", "expr_obj_thres": 0.01}

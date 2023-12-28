@@ -1,0 +1,2 @@
+0
+{"eq_name": "feynman-ii.27.16", "num_vars": 1, "vars_range_and_types": "[{\"name\": \"LogUniform\", \"range\": [0.1, 10.0], \"only_positive\": true}]", "function_set": ["add", "sub", "mul", "div", "n2", "const"], "eq_expression": "[('mul', 'binary'), (0.00265436242313200, 'const'), ('pow', 'binary'), ('X_0', 'var'), (2, 'const')]", "expr": "0.002654362423132*X_0**2", "expr_obj_thres": 0.01}
