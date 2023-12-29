@@ -1,2 +1,0 @@
-0
-{"eq_name": "feynman-i.26.2", "num_vars": 2, "vars_range_and_types": "[{\"name\": \"Uniform\", \"range\": [0, 6.283185307179586], \"only_positive\": true}, {\"name\": \"Uniform\", \"range\": [0, 6.283185307179586], \"only_positive\": true}]", "function_set": ["add", "sub", "mul", "div", "inv", "sin", "cos"], "eq_expression": "[('mul', 'binary'), ('pow', 'binary'), ('sin', 'unary'), ('X_1', 'var'), (-1, 'const'), ('sin', 'unary'), ('X_0', 'var')]", "expr": "sin(X_0)/sin(X_1)", "expr_obj_thres": 0.01}

@@ -12,13 +12,13 @@ pip install cryptography
 
 ### 0.2 Directory
 
-- data: the generated dataset. Every file represent a ground-truth expression.
-- racing-cvgp: implementation of the proposed method
-- gp_cvgp: implementation of GP and CVGP. public code implementation from  https://github.com/jiangnanhugo/cvgp
-- dso-classic: public code implementation from https://github.com/brendenpetersen/deep-symbolic-optimization.
-- eureqa: impelemtation and result of Eureqa method
-- scibench: the DataOracle 
-
+- `data`: the generated dataset. Every file represent a ground-truth expression.
+- `racing-cvgp`: implementation of the proposed method
+- `gp_cvgp`: implementation of GP and CVGP. public code implementation from  https://github.com/jiangnanhugo/cvgp
+- `multiorder_cvgp`: run CVGP with all the possible variable ordering (experiment schedule).
+- `dso-classic`: public code implementation from https://github.com/brendenpetersen/deep-symbolic-optimization.
+- `eureqa`: implementation and result of Eureqa method
+- scibench: the DataOracle
 - plots: the jupter notebook to generate our figures in the paper.
 - result: contains all the output of all the programs, the training logs.
 

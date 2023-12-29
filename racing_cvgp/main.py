@@ -3,11 +3,11 @@ import argparse
 from program import Program
 
 from const import ScipyMinimize
-from scibench.symbolic_data_generator import *
-from scibench.symbolic_equation_evaluator_public import Equation_evaluator
+from symbolic_data_generator import DataX
+from symbolic_equation_evaluator_public import Equation_evaluator
 from functions import create_tokens
-from regress_task import RegressTaskV1
-from multipleorder_cvgp import ExpandingGeneticProgram
+from regress_task import RegressTask
+from racing_cvgp import ExpandingGeneticProgram
 from gp_helper import GPHelper
 
 import numpy as np
@@ -27,26 +27,25 @@ config = {
 }
 
 
-def run_tree_based_control_variable_gp(equation_name, max_width, metric_name, noise_type, noise_scale, optimizer):
+def run_randomized_control_variable_gp(equation_name, metric_name, noise_type, noise_scale, optimizer):
     data_query_oracle = Equation_evaluator(equation_name, noise_type, noise_scale, metric_name)
     dataXgen = DataX(data_query_oracle.get_vars_range_and_types())
     nvar = data_query_oracle.get_nvars()
-    max_width = max(max_width, nvar)
 
     regress_batchsize = 256
     opt_num_expr = 5
 
-    expr_obj_thres = 1e-6# data_query_oracle.expr_obj_thres
-    expr_consts_thres = 1e-6  # config[metric_name]['expr_consts_thres']
+    expr_obj_thres = 1E-6  # data_query_oracle.expr_obj_thres
+    expr_consts_thres = config[metric_name]['expr_consts_thres']
 
     # gp hyper parameters
     cxpb = 0.5
     mutpb = 0.5
     maxdepth = 2
-    tour_size = 3
-    hof_size = 20  # 0
+    tour_size = 2
+    hof_size = 50  # 0
 
-    population_size = 50
+    population_size = 100
     n_generations = 100
 
     # get all the functions and variables ready
@@ -66,16 +65,15 @@ def run_tree_based_control_variable_gp(equation_name, max_width, metric_name, no
     # set const_optimizer
     Program.optimizer = optimizer
     Program.const_optimizer = ScipyMinimize()
-
     Program.noise_std = noise_scale
 
     # set it for now. Will change in gp.run
     allowed_input_tokens = np.zeros(nvar, dtype=np.int32)
     # set the task
-    Program.task = RegressTaskV1(regress_batchsize,
-                                 allowed_input_tokens,
-                                 dataXgen,
-                                 data_query_oracle)
+    Program.task = RegressTask(regress_batchsize,
+                               allowed_input_tokens,
+                               dataXgen,
+                               data_query_oracle)
 
     # set gp helper
     gp_helper = GPHelper()
@@ -88,7 +86,7 @@ def run_tree_based_control_variable_gp(equation_name, max_width, metric_name, no
                                   tour_size, hof_size, n_generations, nvar)
 
     # run GP
-    egp.run_with_multiple_randomized_experiment_schedule(maximum_width=max_width)
+    egp.run_with_racing_experiment_schedules()
 
     # print
     print('final hof=')
@@ -101,9 +99,8 @@ if __name__ == '__main__':
     parser.add_argument("--equation_name", help="the filename of the true program.")
     parser.add_argument('--optimizer',
                         nargs='?',
-                        choices=['BFGS', 'Nelder-Mead', 'CG', 'basinhopping', 'dual_annealing', 'shgo', 'direct'],
-                        help='all optimizers')
-    parser.add_argument("--maxwidth", type=int, default=6, help="The name of the noises.")
+                        choices=['BFGS', 'Nelder-Mead', 'CG', 'basinhopping', 'dual_annealing', 'shgo','direct'],
+                        help='list servers, storage, or both (default: %(default)s)')
     parser.add_argument("--metric_name", type=str, default='neg_mse', help="The name of the metric for loss.")
     parser.add_argument("--noise_type", type=str, default='normal', help="The name of the noises.")
     parser.add_argument("--noise_scale", type=float, default=0.0, help="This parameter adds the standard deviation of the noise")
@@ -117,6 +114,5 @@ if __name__ == '__main__':
     seed = int(time.perf_counter() * 10000) % 1000007
     np.random.seed(seed)
     print('np.random seed=', seed)
-    print(args)
-    run_tree_based_control_variable_gp(args.equation_name, args.maxwidth, args.metric_name, args.noise_type, args.noise_scale,
-                                       args.optimizer)
+
+    run_randomized_control_variable_gp(args.equation_name, args.metric_name, args.noise_type, args.noise_scale, args.optimizer)

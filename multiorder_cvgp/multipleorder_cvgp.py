@@ -77,7 +77,7 @@ class ExpandingGeneticProgram(object):
                     self.hofs[tmp_node].append(new_pr)
         return current_node_lists
 
-    def run_with_tree_based_randomized_variable_ordering(self, maximum_width=10):
+    def run_with_multiple_randomized_experiment_schedule(self, maximum_width=10):
         # 1. generate all single variable equations by creating `#nvar` POOLS.
         self.variable_ordering_tree = Tree(self.nvar, max_width=maximum_width)
         current_node_lists = self.create_init_population()
@@ -90,8 +90,6 @@ class ExpandingGeneticProgram(object):
         # 2. apply GP for every single POOL
         for round_idx in range(self.nvar + 1):
             if round_idx == self.nvar:
-                # XYX on Jan 5: in the last iteration there is no constants
-                #               that can be changed among different experiments.
                 Program.task.batchsize *= Program.opt_num_expr
                 Program.opt_num_expr = 1
             for cur_node in current_node_lists:

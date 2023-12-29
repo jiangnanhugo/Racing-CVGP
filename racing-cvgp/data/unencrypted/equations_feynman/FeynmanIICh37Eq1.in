@@ -1,2 +1,0 @@
-0
-{"eq_name": "feynman-ii.37.1", "num_vars": 3, "vars_range_and_types": "[{\"name\": \"LogUniform\", \"range\": [1e-25, 1e-23], \"only_positive\": false}, {\"name\": \"LogUniform\", \"range\": [10000.0, 1000000.0], \"only_positive\": false}, {\"name\": \"LogUniform\", \"range\": [0.001, 0.1], \"only_positive\": false}]", "function_set": ["add", "sub", "mul", "div", "inv", "const"], "eq_expression": "[('mul', 'binary'), ('X_0', 'var'), ('mul', 'binary'), ('X_2', 'var'), ('add', 'binary'), (1, 'const'), ('X_1', 'var')]", "expr": "X_0*X_2*(X_1 + 1)", "expr_obj_thres": 0.01}
